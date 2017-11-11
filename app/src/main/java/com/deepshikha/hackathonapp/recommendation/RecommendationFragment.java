@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.deepshikha.hackathonapp.Callbacks;
@@ -20,16 +21,14 @@ import java.util.List;
 
 public class RecommendationFragment extends Fragment implements Callbacks.RecommendationCallback {
 
-    RecyclerView recyclerView;
+    GridView gridView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recommendation, container, false);
-        recyclerView = view.findViewById(R.id.recommendationsRecyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new RecommendationAdapter(getContext(), new ArrayList<String>()));
+        gridView = view.findViewById(R.id.grid_view_recommendation);
+        gridView.setAdapter(new RecommendationAdapter(getContext(), new ArrayList<String>()));
         Toast.makeText(getContext(), "Fetching new recommendations", Toast.LENGTH_SHORT).show();
         String username = getContext().getSharedPreferences("ConnectMe", Context.MODE_PRIVATE).getString("username", "red");
         NetworkManager.getInstance().getRecommendations(username, this);
@@ -38,6 +37,6 @@ public class RecommendationFragment extends Fragment implements Callbacks.Recomm
 
     @Override
     public void recommendations(List<String> list) {
-        recyclerView.setAdapter(new RecommendationAdapter(getContext(), list));
+        gridView.setAdapter(new RecommendationAdapter(getContext(), list));
     }
 }

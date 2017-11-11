@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     List<String> eventList;
     Context context;
+    int images[] = new int[]{R.drawable.event_img1, R.drawable.event_img2, R.drawable.event_img3, R.drawable.event_img4, R.drawable.event_img5};
 
     public EventAdapter(Context context, List<String> eventList) {
         this.context = context;
@@ -50,6 +52,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
             }
         });
+        holder.eventImage.setImageResource(images[position%images.length]);
     }
 
     @Override
@@ -72,12 +75,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public class EventViewHolder extends RecyclerView.ViewHolder {
 
         TextView eventName;
-        Button registerButton;
+        ImageView registerButton;
+        ImageView eventImage;
 
         public EventViewHolder(View itemView) {
             super(itemView);
             eventName = itemView.findViewById(R.id.eventNameTextView);
             registerButton = itemView.findViewById(R.id.registerButton);
+            eventImage = itemView.findViewById(R.id.event_image);
         }
     }
 }
