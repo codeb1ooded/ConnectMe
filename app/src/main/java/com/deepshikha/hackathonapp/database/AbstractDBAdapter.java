@@ -127,4 +127,19 @@ public class AbstractDBAdapter{
         return messages;
     }
 
+    public String getText(String username){
+        String selectQuery = "SELECT  * FROM " + DatabaseHelper.CHAT_TABLE_NAME + " WHERE " +
+                DatabaseHelper.COLUMN_USERNAME + "=\'" + username + "\' ORDER BY " + DatabaseHelper.COLUMN_TIMESTAMP;
+        StringBuffer out = new StringBuffer();
+        open();
+        Cursor cursor = mDatabase.rawQuery(selectQuery, null);
+        while (cursor.moveToNext()) {
+            if(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_MESSAGE)) == 0){
+                out.append(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_MESSAGE)));
+            }
+        }
+        close();
+        return out.toString();
+    }
+
 }

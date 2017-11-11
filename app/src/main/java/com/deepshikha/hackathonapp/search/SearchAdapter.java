@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.deepshikha.hackathonapp.R;
+import com.deepshikha.hackathonapp.chat.AnalyseChat;
 import com.deepshikha.hackathonapp.chat.ChatActivity;
 import com.deepshikha.hackathonapp.database.AbstractDBAdapter;
 import com.deepshikha.hackathonapp.database.UsernameModel;
@@ -46,7 +47,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, ChatActivity.class);
+                Intent i = new Intent(context, AnalyseChat.class);
                 i.putExtra("userto", searchResult.get(position).username);
                 context.startActivity(i);
             }

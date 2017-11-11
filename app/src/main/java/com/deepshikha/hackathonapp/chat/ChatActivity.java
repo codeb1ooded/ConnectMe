@@ -39,6 +39,7 @@ public class ChatActivity extends AppCompatActivity {
                 ChatModel message = new ChatModel();
                 message.message = editText.getText().toString();
                 message.byme = true;
+                editText.setText("");
                 listMessages.add(message);
                 db.enterMessage(username, true, message.message);
                 adapter.notifyDataSetChanged();
