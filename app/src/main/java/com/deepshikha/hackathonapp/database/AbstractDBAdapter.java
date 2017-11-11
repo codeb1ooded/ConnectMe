@@ -63,6 +63,23 @@ public class AbstractDBAdapter{
         return users;
     }
 
+    public ArrayList<UsernameModel> getAllUsers(){
+        String selectQuery = "SELECT  * FROM " + DatabaseHelper.LABEL_TABLE_NAME + " ORDER BY USERNAME";
+        ArrayList<UsernameModel> users = new ArrayList<>();
+
+        open();
+        Cursor cursor = mDatabase.rawQuery(selectQuery, null);
+        while (cursor.moveToNext()) {
+            UsernameModel user = new UsernameModel();
+            user.label =  cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_LABEL_VALUE));
+            user.username =  cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USERNAME));
+            users.add(user);
+        }
+        cursor.close();
+        close();
+        return users;
+    }
+
     public void deleteLabelTable(){
         open();
         mDatabase.delete(DatabaseHelper.LABEL_TABLE_NAME, null, null);

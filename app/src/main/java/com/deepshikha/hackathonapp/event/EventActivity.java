@@ -22,7 +22,7 @@ public class EventActivity extends AppCompatActivity {
         findViewById(R.id.listEventsButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(EventActivity.this, ListEventsActivity.class));
+                startActivity(new Intent(EventActivity.this, ListEventsFragment.class));
             }
         });
     }
