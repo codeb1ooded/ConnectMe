@@ -63,4 +63,10 @@ public class AbstractDBAdapter{
         return users;
     }
 
+    public void deleteLabelTable(){
+        open();
+        mDatabase.delete(DatabaseHelper.LABEL_TABLE_NAME, null, null);
+        close();
+    }
+
 }

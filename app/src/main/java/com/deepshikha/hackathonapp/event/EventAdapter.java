@@ -42,7 +42,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = context.getSharedPreferences("username", Context.MODE_PRIVATE)
+                String username = context.getSharedPreferences("ConnectMe", Context.MODE_PRIVATE)
                         .getString("username", "red");
                 Toast.makeText(context,
                         "Registering " + username + " on event: " + eventList.get(position), Toast.LENGTH_SHORT).show();

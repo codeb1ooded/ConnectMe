@@ -27,7 +27,7 @@ public class RecommendationActivity extends AppCompatActivity implements Callbac
         recommendationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         recommendationsRecyclerView.setAdapter(new RecommendationAdapter(this, new ArrayList<String>()));
         Toast.makeText(this, "Fetching new recommendations", Toast.LENGTH_SHORT).show();
-        String username = getSharedPreferences("username", MODE_PRIVATE).getString("username", "red");
+        String username = getSharedPreferences("ConnectMe", MODE_PRIVATE).getString("username", "red");
         NetworkManager.getInstance().getRecommendations(username, this);
     }
 
