@@ -1,6 +1,7 @@
 package com.deepshikha.hackathonapp.search;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.deepshikha.hackathonapp.R;
+import com.deepshikha.hackathonapp.chat.ChatActivity;
 import com.deepshikha.hackathonapp.database.AbstractDBAdapter;
 import com.deepshikha.hackathonapp.database.UsernameModel;
 
@@ -41,6 +43,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         holder.username.setText(searchResult.get(position).username);
         holder.label.setText(searchResult.get(position).label);
         holder.profile.setImageResource(images[position%images.length]);
+        holder.rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, ChatActivity.class);
+                i.putExtra("userto", searchResult.get(position).username);
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -53,9 +63,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         TextView username, label;
         ImageView profile;
+        View rootView;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            rootView = itemView.findViewById(R.id.search_list);
             username = itemView.findViewById(R.id.username);
             label = itemView.findViewById(R.id.label);
             profile = itemView.findViewById(R.id.profileImage);

@@ -23,6 +23,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".event.CreateEventActivity" />
         <activity android:name=".event.EventActivity" />
+        <activity android:name=".chat.ChatActivity"></activity>
     </application>
 
 </manifest>

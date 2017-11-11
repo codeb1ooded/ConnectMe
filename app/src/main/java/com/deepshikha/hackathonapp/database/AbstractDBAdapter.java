@@ -7,6 +7,8 @@ import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.deepshikha.hackathonapp.chat.ChatModel;
+
 import java.util.ArrayList;
 
 /**
@@ -83,7 +85,46 @@ public class AbstractDBAdapter{
     public void deleteLabelTable(){
         open();
         mDatabase.delete(DatabaseHelper.LABEL_TABLE_NAME, null, null);
+        mDatabase.delete(DatabaseHelper.CHAT_TABLE_NAME, null, null);
         close();
+    }
+
+    public void enterMessage(String username, boolean me, String message){
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COLUMN_USERNAME, username);
+        values.put(DatabaseHelper.COLUMN_USER, me ? 0 : 1);
+        values.put(DatabaseHelper.COLUMN_MESSAGE, message);
+        values.put(DatabaseHelper.COLUMN_TIMESTAMP, getTimestamp(username));
+
+        open();
+        mDatabase.insert(DatabaseHelper.CHAT_TABLE_NAME, null, values);
+        close();
+    }
+
+    private int getTimestamp(String username){
+        String selectQuery = "SELECT  * FROM " + DatabaseHelper.CHAT_TABLE_NAME + " WHERE " +
+                DatabaseHelper.COLUMN_USERNAME + "=\'" + username + "\'";
+        open();
+        Cursor cursor = mDatabase.rawQuery(selectQuery, null);
+        int count = cursor.getCount() + 1;
+        close();
+        return count;
+    }
+
+    public ArrayList<ChatModel> getMessages(String username){
+        String selectQuery = "SELECT  * FROM " + DatabaseHelper.CHAT_TABLE_NAME + " WHERE " +
+                DatabaseHelper.COLUMN_USERNAME + "=\'" + username + "\' ORDER BY " + DatabaseHelper.COLUMN_TIMESTAMP;
+        ArrayList<ChatModel> messages = new ArrayList<>();
+        open();
+        Cursor cursor = mDatabase.rawQuery(selectQuery, null);
+        while (cursor.moveToNext()) {
+            ChatModel message = new ChatModel();
+            message.message = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_MESSAGE));
+            message.byme = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_MESSAGE)) == 0;
+            messages.add(message);
+        }
+        close();
+        return messages;
     }
 
 }

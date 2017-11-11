@@ -15,6 +15,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public static final String LABEL_TABLE_NAME = "LABELS";
     public static final String COLUMN_LABEL_VALUE = "LABEL_VALUE";
     public static final String COLUMN_USERNAME = "USERNAME";
+    public static final String CHAT_TABLE_NAME = "CHAT";
+    public static final String COLUMN_MESSAGE = "MESSAGE";
+    public static final String COLUMN_TIMESTAMP = "TIMESTAMP";
+    public static final String COLUMN_USER = "USER_ME";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, version);
@@ -23,12 +27,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_LABEL_TABLE = "CREATE TABLE " + LABEL_TABLE_NAME + "(" +
-               // "LABEL_ID" + " INTEGER PRIMARY KEY ," +
+                // "LABEL_ID" + " INTEGER PRIMARY KEY ," +
                 COLUMN_USERNAME + " STRING, " +
                 COLUMN_LABEL_VALUE + " STRING" +
                 ")";
 
+        String CREATE_CHAT_TABLE = "CREATE TABLE " + CHAT_TABLE_NAME + "(" +
+                // "LABEL_ID" + " INTEGER PRIMARY KEY ," +
+                COLUMN_USERNAME + " STRING, " +
+                COLUMN_MESSAGE + " STRING, " +
+                COLUMN_TIMESTAMP + " INTEGER, " +
+                COLUMN_USER + " INTEGER " +     // 0: ME 1: Front person
+                ")";
+
         db.execSQL(CREATE_LABEL_TABLE);
+        db.execSQL(CREATE_CHAT_TABLE);
     }
 
     @Override
