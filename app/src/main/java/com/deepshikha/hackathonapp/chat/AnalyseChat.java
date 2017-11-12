@@ -5,6 +5,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.deepshikha.hackathonapp.R;
@@ -29,11 +30,12 @@ import retrofit2.Response;
 
 public class AnalyseChat extends AppCompatActivity {
 
-    String CLOUD_API_KEY = "AIzaSyDPoYCBP3ta17ZI27fRmxUKYgupukIuVlYAIzaSyDPoYCBP3ta17ZI27fRmxUKYgupukIuVlYAIzaSyDPoYCBP3ta17ZI27fRmxUKYgupukIuVlYAIzaSyDPoYCBP3ta17ZI27fRmxUKYgupukIuVlYAIzaSyDPoYCBP3ta17ZI27fRmxUKYgupukIuVlYAIzaSyDPoYCBP3ta17ZI27fRmxUKYgupukIuVlY";
+    String CLOUD_API_KEY = "AIzaSyDPoYCBP3ta17ZI27fRmxUKYgupukIuVlY";
     CloudNaturalLanguage naturalLanguageService;
     String username = "";
     AbstractDBAdapter db;
     Client api;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class AnalyseChat extends AppCompatActivity {
         username = getIntent().getStringExtra("userto");
         db = new AbstractDBAdapter(AnalyseChat.this);
         api = new Client();
+        textView = (TextView) findViewById(R.id.analyzed_text);
 
         naturalLanguageService =
                 new CloudNaturalLanguage.Builder(
@@ -59,28 +62,34 @@ public class AnalyseChat extends AppCompatActivity {
         features.setExtractEntities(true);
         features.setExtractDocumentSentiment(true);
 
-        Call<AnalyseResponse> response = Client.getInterface().analyseCall(CLOUD_API_KEY, document, "UTF-8");
-        response.enqueue(new Callback<AnalyseResponse>() {
-            @Override
-            public void onResponse(Call<AnalyseResponse> call, Response<AnalyseResponse> response) {
-                String entities = "";
-                for(Entity entity: response.body().entities) {
-                    entities += "\n" + entity.getName().toUpperCase();
-                }
-                Log.i(getLocalClassName(), "This audio file talks about :"
-                        + entities);
-                AlertDialog dialog =
-                        new AlertDialog.Builder(AnalyseChat.this)
-                                .setMessage("This audio file talks about :"
-                                        + entities)
-                                .setNeutralButton("Okay", null)
-                                .create();
-                dialog.show();
-            }
+        final AnnotateTextRequest request = new AnnotateTextRequest();
+        request.setDocument(document);
+        request.setFeatures(features);
 
+        AsyncTask.execute(new Runnable() {
             @Override
-            public void onFailure(Call<AnalyseResponse> call, Throwable t) {
-                Toast.makeText(AnalyseChat.this, "You are not connected to internet", Toast.LENGTH_SHORT).show();
+            public void run() {
+                try {
+                    AnnotateTextResponse response =
+                            naturalLanguageService.documents()
+                                    .annotateText(request).execute();
+                    final List<Entity> entityList = response.getEntities();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String entities = "";
+                            for(Entity entity:entityList) {
+                                entities += "\n" + entity.getName().toUpperCase();
+                            }
+                            textView.setText(entities);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // More code here
             }
         });
 

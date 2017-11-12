@@ -135,7 +135,7 @@ public class AbstractDBAdapter{
         Cursor cursor = mDatabase.rawQuery(selectQuery, null);
         while (cursor.moveToNext()) {
             if(cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_MESSAGE)) == 0){
-                out.append(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_MESSAGE)));
+                out.append(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_MESSAGE)) + " ");
             }
         }
         close();

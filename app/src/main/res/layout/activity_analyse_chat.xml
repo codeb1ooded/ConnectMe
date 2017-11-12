@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.deepshikha.hackathonapp.chat.AnalyseChat">
 
+    <TextView
+        android:id="@+id/analyzed_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>

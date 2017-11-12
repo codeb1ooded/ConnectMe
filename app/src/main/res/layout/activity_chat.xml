@@ -58,6 +58,17 @@
             android:layout_height="48dp"
             android:gravity="center"
             android:layout_gravity="bottom" />
+
+        <ImageView
+            android:id="@+id/analyze_image_view"
+            android:text="SEND"
+            android:textSize="14dp"
+            android:src="@drawable/analyze"
+            android:clickable="true"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:layout_gravity="bottom" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
