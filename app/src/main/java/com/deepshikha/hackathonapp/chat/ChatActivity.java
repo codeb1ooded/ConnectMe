@@ -24,10 +24,11 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        username = getIntent().getStringExtra("userto");
+        setTitle(username);
         ListView listMsg = findViewById(R.id.chat_list);
         editText = (EditText) findViewById(R.id.edittext_chatbox);
         db = new AbstractDBAdapter(ChatActivity.this);
-        username = getIntent().getStringExtra("userto");
         listMessages = db.getMessages(username);
         adapter = new ChatAdapter(this, listMessages);
         listMsg.setAdapter(adapter);
@@ -38,6 +39,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 ChatModel message = new ChatModel();
                 message.message = editText.getText().toString();
+                editText.setText("");
                 message.byme = true;
                 editText.setText("");
                 listMessages.add(message);

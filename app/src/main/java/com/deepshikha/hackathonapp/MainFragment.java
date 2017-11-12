@@ -50,8 +50,8 @@ public class MainFragment extends Fragment {
         BottomNavigationView navigation = view.findViewById(R.id.navigation);
         frameLayout = view.findViewById(R.id.main_fragment_frame_layout);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        DashboardFragment dashboardFragment = new DashboardFragment();
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_frame_layout, dashboardFragment).commit();
+        ListEventsFragment listEventsFragment = new ListEventsFragment();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_frame_layout, listEventsFragment).commit();
         return view;
     }
 
